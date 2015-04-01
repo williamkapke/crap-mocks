@@ -14,12 +14,12 @@ var cfg = module.exports = {
   resources: {
     tokens: {
       settings:{ host:"tokens", port:6379 },
-      source: 'module://crap-mocks?redis'
-      //                           ^^^^^ db type
+      source: 'crap-mocks?redis'
+      //                  ^^^^^ db type
     },
     users: {
-      source: 'module://crap-mocks?mongo#users'
-      //                                 ^^^^^ collection name
+      source: 'crap-mocks?mongo#users'
+                                ^^^^^ collection name
     }
   }
 };
