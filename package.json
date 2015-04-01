@@ -1,10 +1,10 @@
 {
   "name": "crap-mocks",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A bridge between CRaP and a mock resource",
   "main": "crap-mocks.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/williamkapke/crap-mocks/issues"
   },
-  "homepage": "https://github.com/williamkapke/crap-mocks"
+  "homepage": "https://github.com/williamkapke/crap-mocks",
+  "dependencies": {
+    "mongo-mock": "^1.0.0",
+    "redis-mock": "^0.4.6"
+  },
+  "devDependencies": {
+    "should": "^5.2.0"
+  }
 }
