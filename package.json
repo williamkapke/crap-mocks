@@ -1,6 +1,6 @@
 {
   "name": "crap-mocks",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A bridge between CRaP and a mock resource",
   "main": "crap-mocks.js",
   "scripts": {

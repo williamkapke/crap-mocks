@@ -25,6 +25,9 @@ exports = module.exports = {
     if(typeof settings.persist === 'string')
       MongoClient.persist = path.resolve(this.config.root, settings.persist);
 
+    if(typeof settings.max_delay === 'number')
+      mongo.max_delay = settings.max_delay;
+
     MongoClient.connect(url, settings, function (err, db) {
       if(err) return callback(err);
 
