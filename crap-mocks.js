@@ -1,20 +1,47 @@
 
 var mongo,redis;
+var path = require('path');
+var cache = {};
 
 exports = module.exports = {
   mongo: function (collection, callback) {
     if(!mongo) mongo = require('mongo-mock');
 
+    var config = this.config;
     callback = arguments[arguments.length-1];
-    if(callback === collection) collection = this.config.settings.collection;
+    if(callback === collection) collection = config.settings.collection;
 
-    var settings = this.config.settings || {};
+    var settings = config.settings || {};
     var MongoClient = mongo.MongoClient;
     var url = settings.url || 'mongodb://127.0.0.1:27017/test';
 
+    function finisher(db) {
+      callback(null, collection? db.collection(collection) : db);
+    }
+    var cached = cache[url];
+    if(cached) return cached.push(finisher);
+    cached = cache[url] = [finisher];
+
+    if(typeof settings.persist === 'string')
+      MongoClient.persist = path.resolve(this.config.root, settings.persist);
+
     MongoClient.connect(url, settings, function (err, db) {
       if(err) return callback(err);
-      callback(null, db.collection(collection))
+
+      function setup_complete(err) {
+        if(err) return callback(err);
+
+        function connected(callback) {
+          callback(db);
+        }
+        cache[url] = { push: connected };
+        cached.forEach(connected);
+      }
+
+      if(typeof settings.setup === 'string')
+        require(path.resolve(config.root, settings.setup))(db, setup_complete);
+      else
+        setup_complete();
     });
   },
   redis: function (callback) {
